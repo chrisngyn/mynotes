@@ -90,11 +90,11 @@ class FirebaseAuthProvider implements AuthProvider {
     }
     await user.sendEmailVerification();
   }
-  
+
   @override
   Future<void> initialize() async {
-   await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-   );
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
   }
 }
