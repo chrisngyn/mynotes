@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mynotes/extensions/buildcontext/loc.dart';
 import 'package:mynotes/services/auth/auth_exceptions.dart';
 import 'package:mynotes/services/auth/bloc/auth_bloc.dart';
 import 'package:mynotes/services/auth/bloc/auth_event.dart';
@@ -39,32 +40,32 @@ class _RegisterViewState extends State<RegisterView> {
           if (state.exception is WeakPasswordAuthException) {
             await showErrorDialog(
               context,
-              'Weak password',
+              context.loc.register_error_weak_password,
             );
           }
           if (state.exception is EmailAlreadyInUseException) {
             await showErrorDialog(
               context,
-              'Email is already in use',
+              context.loc.register_error_email_already_in_use,
             );
           }
           if (state.exception is InvalidEmailUseException) {
             await showErrorDialog(
               context,
-              'Invalid email',
+              context.loc.register_error_invalid_email,
             );
           }
           if (state.exception is GenericAuthException) {
             await showErrorDialog(
               context,
-              'Failed to register',
+              context.loc.register_error_generic,
             );
           }
         }
       },
       child: Scaffold(
         appBar: AppBar(
-          title: const Text("Register"),
+          title: Text(context.loc.register),
         ),
         body: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -72,23 +73,23 @@ class _RegisterViewState extends State<RegisterView> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text('Enter your email and password to see your notes'),
+                Text(context.loc.register_view_prompt),
                 TextField(
                   controller: _email,
                   enableSuggestions: false,
                   autocorrect: false,
                   autofocus: true,
                   keyboardType: TextInputType.emailAddress,
-                  decoration:
-                      const InputDecoration(hintText: "Enter your email here"),
+                  decoration: InputDecoration(
+                      hintText: context.loc.email_text_field_placeholder),
                 ),
                 TextField(
                   controller: _password,
                   obscureText: true,
                   enableSuggestions: false,
                   autocorrect: false,
-                  decoration:
-                      const InputDecoration(hintText: "Enter your password here"),
+                  decoration: InputDecoration(
+                      hintText: context.loc.password_text_field_placeholder),
                 ),
                 Center(
                   child: Column(
@@ -97,7 +98,7 @@ class _RegisterViewState extends State<RegisterView> {
                         onPressed: () {
                           final email = _email.text;
                           final password = _password.text;
-                  
+
                           context.read<AuthBloc>().add(
                                 AuthEventReigister(
                                   email,
@@ -105,7 +106,7 @@ class _RegisterViewState extends State<RegisterView> {
                                 ),
                               );
                         },
-                        child: const Text("Register"),
+                        child: Text(context.loc.register),
                       ),
                       TextButton(
                         onPressed: () {
@@ -113,7 +114,8 @@ class _RegisterViewState extends State<RegisterView> {
                                 const AuthEventLogout(),
                               );
                         },
-                        child: const Text("Already registered? Login here!"),
+                        child:
+                            Text(context.loc.register_view_already_registered),
                       ),
                     ],
                   ),
